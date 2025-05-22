@@ -1,0 +1,16 @@
+.codeEditor,.io,.inputEditor,.outputEditor{
+    /* border: 1px solid black; */
+    
+}
+.codeEditor{
+    height: 700px;
+    
+}
+.inputEditor,.outputEditor{
+    height: 350px;
+    
+}
+#root {
+    width: 1000px;
+  }
+  
