@@ -1,6 +1,7 @@
 import React , {useState,useEffect,useRef}from "react";
 
 import AceEditor from "react-ace";
+import './editor.css';
 
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-python";
@@ -149,7 +150,13 @@ function CodeEditor(props) {
   props.onFetchCode(value);
   
   return (
-    <>
+    <div className="editorBox">
+      <div className={`editorHeader ${theme == "chaos" ? "darkColor" : "lightColor"}`}>
+      <img src="../../assets/images/Code icon.png"  style={{width:30,height:30}}/>
+      <p className={theme == "chaos" ? "lightText" : "darkText"}>
+        Input Editor
+      </p>
+    </div>
     
     <AceEditor
     mode={language}
@@ -166,10 +173,12 @@ function CodeEditor(props) {
       enableBasicAutocompletion: true,
       enableLiveAutocompletion: true,
       enableSnippets: true,
+      wrap: true,
+      showLineNumbers: true,
     }}
     />
    
-    </>
+    </div>
   );
 }
 export default CodeEditor;

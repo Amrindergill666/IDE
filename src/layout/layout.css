@@ -3,13 +3,54 @@
     
 }
 .codeEditor{
-    height: 700px;
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;  
+    background-color: #f0f0f0;
     
 }
 .inputEditor,.outputEditor{
-    height: 350px;
+    height: 45vh;
+   justify-content: center;
+    display: flex;  
+    background-color: #f0f0f0;
+    width: 100%;
+}
+.inputEditor{
+    /* margin: 20px; */
     
 }
+
+.horizontalLine{
+    height: 3px;
+    background-color: transparent;
+    width: 95%;
+    margin: 0px 0px;
+    transition: background-color 0.3s ease;
+    border-radius: 3px;
+    cursor: row-resize;
+}
+
+.horizontalLine:hover{
+    background-color: #1a90ff;
+}
+
+.verticalLine{
+    width: 3px;
+    background-color: transparent;
+    height: 95%;
+    margin: 0px 0.5px;
+    transition: background-color 0.3s ease;
+    border-radius: 3px;
+    align-self: center;
+    cursor: col-resize;
+}
+
+.verticalLine:hover{
+    background-color: #1a90ff;
+} 
+
 #root {
     width: 1000px;
   }

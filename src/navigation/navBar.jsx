@@ -32,6 +32,7 @@ export default function NavBar(props) {
   const [output, setOutput] = React.useState("output");
   const [theme, setTheme] = React.useState("chaos");
   const [insertTemplate, setInsertTemplate] = React.useState(0);
+  const [showFirstGif, setShowFirstGif] = React.useState(theme == "chaos" ?  true : false);
   let editorCode = props.onFetchCode;
   let editorInput = props.onFetchInput;
 
@@ -39,8 +40,8 @@ export default function NavBar(props) {
     setLanguage(event.target.value);
   };
 
-  const onThemeChange = (event) => {
-    setTheme(event.target.value);
+  const onThemeChange = (value) => {
+    setTheme(value);
   };
 
   const onInsertTemplate = (event) => {
@@ -59,7 +60,9 @@ export default function NavBar(props) {
     saveAs(file, `downloadedCode.${language}`);
   };
 
-  
+  const handleGifToggle = () => {
+    setShowFirstGif((prev) => !prev);
+  };
 
   const onRun = async () => {
     try {
@@ -117,7 +120,7 @@ export default function NavBar(props) {
               </Button>
             </Typography>
 
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-label">Theme</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -129,7 +132,57 @@ export default function NavBar(props) {
                 <MenuItem value={"chrome"}>Light</MenuItem>
                 <MenuItem value={"chaos"}>Dark</MenuItem>
               </Select>
-            </FormControl>
+            </FormControl> */}
+         
+
+            {/* GIF Toggle */}
+            <div
+              style={{
+                position: "relative",
+                width: "60px",
+                height: "60px",
+                marginRight: "16px",
+                cursor: "pointer",
+                display: "inline-block",
+                verticalAlign: "middle",
+                overflow: "hidden",
+              }}
+              onClick={handleGifToggle}
+              title="Toggle Theme GIF"
+            >
+              <img
+                src={'../../assets/gif/moon.gif'}
+                alt="Moon"
+                onClick={()=>onThemeChange("chrome")}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: showFirstGif ? 0 : "80px",
+                  width: "100%",
+                  height: "100%",
+                  transition: "top 0.3s",
+                  zIndex: showFirstGif ? 2 : 1,
+                  objectFit:'cover',
+                  transform:'scale(1.5)'
+                }}
+              />
+              <img
+                src={'../../assets/gif/sun.gif'}
+                alt="Sun"
+                onClick={()=>onThemeChange("chaos")}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: showFirstGif ? "-80px" : 0,
+                  width: "100%",
+                  height: "100%",
+                  transition: "top 0.3s",
+                  zIndex: showFirstGif ? 1 : 2,
+                  objectFit:'cover',
+                  transform:'scale(1.5)'
+                }}
+              />
+            </div>
 
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-label">Language</InputLabel>

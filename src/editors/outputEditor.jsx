@@ -1,6 +1,7 @@
 import React,{useState,useRef,useEffect} from "react";
 
 import AceEditor from "react-ace";
+import './editor.css';
 
 import "ace-builds/src-noconflict/mode-text";
 import "ace-builds/src-noconflict/theme-chaos";
@@ -11,7 +12,7 @@ import axios from 'axios'
 function OutputEditor(props) {
   let  theme = props.onFetchTheme;
   let onFetchOutput = props.onFetchOutput;
-  let [outputValue,setOutputValue]= useState("Output");
+  let [outputValue,setOutputValue]= useState("");
   
 
   const prevOutputRef = useRef(null);
@@ -27,7 +28,13 @@ function OutputEditor(props) {
     
   };
   return (
-    <>
+    <div className="editorBox">
+      <div className={`editorHeader ${theme == "chaos" ? "darkColor" : "lightColor"}`}>
+      <img src="../../assets/images/Input icon.png"  style={{width:30,height:30}}/>
+      <p className={theme == "chaos" ? "lightText" : "darkText"}>
+        Output Editor
+      </p>
+    </div>
     
     <AceEditor
     mode="text"
@@ -35,8 +42,6 @@ function OutputEditor(props) {
     value={outputValue}
     width="100%"
     theme={theme}
-    
-    
     name="outputEditor"
     editorProps={{ $blockScrolling: true }}
     setOptions={{
@@ -47,10 +52,11 @@ function OutputEditor(props) {
       enableBasicAutocompletion: false,
       enableLiveAutocompletion: false,
       enableSnippets: false,
+
     }}
     />
    
-    </>
+    </div>
   );
 }
 export default OutputEditor;

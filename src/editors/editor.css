@@ -1,0 +1,44 @@
+p{
+    margin: 0;
+    padding: 0;
+    color: black;
+    font-size: large;
+}
+
+.editorBox {
+  height: 98%;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  border-width: 2px;
+  border-color: lightgray;
+  border-style: solid;
+}
+
+.editorHeader{
+    margin:0;
+    padding:3px;
+    padding-left:15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 10px;
+    border-width: 0 0 0.5px 0;
+    border-color: '#e0e0e0';
+    border-style: solid;
+}
+
+.darkText {
+    color: #333;
+}
+.lightText {
+    color: #fff;
+}
+
+.darkColor{
+    background-color: #333;
+}
+
+.lightColor {
+    background-color: #fff;
+}
