@@ -6,13 +6,14 @@ p{
 }
 
 .editorBox {
-  height: 98%;
+  height: 100%;
   width: 100%;
   border-radius: 20px;
   overflow: hidden;
   border-width: 2px;
-  border-color: lightgray;
+  border-color: #d3d3d33d;
   border-style: solid;
+  max-height: -webkit-fill-available;
 }
 
 .editorHeader{
@@ -23,8 +24,8 @@ p{
     flex-direction: row;
     align-items: center;
     column-gap: 10px;
-    border-width: 0 0 0.5px 0;
-    border-color: '#e0e0e0';
+    border-width: 0 0 1px 0;
+    border-color: #d3d3d33d;
     border-style: solid;
 }
 

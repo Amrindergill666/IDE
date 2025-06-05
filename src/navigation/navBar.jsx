@@ -14,7 +14,12 @@ import {
   Select,
   ThemeProvider,
   createTheme,
+  Avatar,
+  Menu,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
+import { ArrowDropDownCircleRounded } from "@mui/icons-material";
 
 export default function NavBar(props) {
   const darkTheme = createTheme({
@@ -28,14 +33,38 @@ export default function NavBar(props) {
     },
   });
 
+  const languageOptions = [
+    { value: "c", label: "C", image: "/images/c.png" },
+    { value: "cpp", label: "C++", image: "/images/cpp.png" },
+    { value: "java", label: "Java", image: "/images/java.png" },
+    { value: "py", label: "Python", image: "/images/python.png" },
+  ];
+
   const [language, setLanguage] = React.useState("c");
-  const [output, setOutput] = React.useState("output");
+  const [output, setOutput] = React.useState("");
   const [theme, setTheme] = React.useState("chaos");
   const [insertTemplate, setInsertTemplate] = React.useState(0);
   const [showFirstGif, setShowFirstGif] = React.useState(theme == "chaos" ?  true : false);
   let editorCode = props.onFetchCode;
   let editorInput = props.onFetchInput;
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selected, setSelected] = React.useState(languageOptions[0]);
+
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleSelect = (option) => {
+    setSelected(option);
+    setAnchorEl(null);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const onLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
@@ -184,7 +213,7 @@ export default function NavBar(props) {
               />
             </div>
 
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-label">Language</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -198,7 +227,47 @@ export default function NavBar(props) {
                 <MenuItem value={"java"}>Java</MenuItem>
                 <MenuItem value={"py"}>Python</MenuItem>
               </Select>
-            </FormControl>
+            </FormControl> */}
+            <>
+      <Button
+        variant="outlined"
+        onClick={handleClick}
+        endIcon={<ArrowDropDownCircleRounded />}
+        sx={{
+          textTransform: "none",
+          display: "flex",
+          gap: 1,
+          alignItems: "center",
+          padding: "6px 12px",
+        }}
+      >
+        <Avatar
+          src={selected.image}
+          alt={selected.label}
+          sx={{ width: 24, height: 24 }}
+        />
+        {selected.label}
+      </Button>
+
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose} style={{borderRadius:20,borderWidth:1,borderStyle:"solid"}} >
+        {languageOptions.map((option) => (
+          <MenuItem
+            key={option.value}
+            selected={option.value === selected.value}
+            onClick={() => handleSelect(option)}
+          >
+            <ListItemIcon>
+              <Avatar
+                src={option.image}
+                alt={option.label}
+                sx={{ width: 24, height: 24 }}
+              />
+            </ListItemIcon>
+            <ListItemText primary={option.label} />
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
             <Button variant="contained" color="success" onClick={onRun}>
               Run
             </Button>

@@ -40,14 +40,14 @@ function Layout() {
 
       if (type === "col") {
         setColWidth((prev) =>
-          Math.min(90, Math.max(10, prev + (diff / window.innerWidth) * 100))
+          Math.min(75, Math.max(25, prev + (diff / window.innerWidth) * 100))
         );
       } else {
         setRowHeight((prev) =>
           Math.min(
-            90,
+            80,
             Math.max(
-              10,
+              20,
               prev + (diff / document.querySelector(".io").clientHeight) * 100
             )
           )
@@ -72,13 +72,11 @@ function Layout() {
         onFetchInput={editorInput}
       />
 
-      <div
-        style={{ display: "flex", width: "100%", backgroundColor: "#f0f0f0" }}
-      >
+      <div  style={{ display: "flex", width: "100%" }}>
         <Grid
           container
           spacing={0}
-          style={{ flexWrap: "nowrap", width: "100%" }}
+          style={{ flexWrap: "nowrap", width: "100%", margin: 5 }}
         >
           <Grid item style={{ width: `${colWidth}%` }}>
             <div className="codeEditor">
@@ -91,7 +89,6 @@ function Layout() {
             </div>
           </Grid>
 
-          {/* Vertical Line */}
           <div
             className="verticalLine"
             onMouseDown={(e) => handleResize("col", e)}
@@ -104,9 +101,7 @@ function Layout() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                justifyContent: "center",
-                height: "99%",
-                marginTop:7
+                height: "100%",
               }}
             >
               <div className="inputEditor" style={{ height: `${rowHeight}%` }}>
@@ -116,7 +111,6 @@ function Layout() {
                 />
               </div>
 
-              {/* Centered Horizontal Line */}
               <div
                 className="horizontalLine"
                 onMouseDown={(e) => handleResize("row", e)}
