@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import CodeEditor from "../editors/codeEditor";
 import InputEditor from "../editors/inputEditor";
@@ -14,6 +14,12 @@ function Layout() {
   const [editorInsertTemplate, setEditorInsertTemplate] = useState("0");
   const [colWidth, setColWidth] = useState(50); // percentage
   const [rowHeight, setRowHeight] = useState(50); // percentage
+  const [bothMin, setBothMin] = useState(false);
+  const [downloadPress, setDownloadPress] = useState(false);
+  const [resizer, setResizer] = useState({
+    input: 1,
+    output: 1,
+  });
 
   const fetchData = (theme, language, insertTemplate, output) => {
     setEditorLanguage(language);
@@ -28,6 +34,20 @@ function Layout() {
   const fetchInput = (input) => {
     setEditorInput(input);
   };
+  useEffect(() => {
+    if (resizer.input == 1 && resizer.output == 1) {
+      setRowHeight(50);
+      setBothMin(false);
+    } else if (resizer.input == 1 && resizer.output == 0) {
+      setRowHeight(96);
+      setBothMin(false);
+    } else if (resizer.input == 0 && resizer.output == 1) {
+      setRowHeight(4);
+      setBothMin(false);
+    } else {
+      setBothMin(true);
+    }
+  }, [resizer]);
 
   const handleResize = (type, e) => {
     e.preventDefault();
@@ -64,19 +84,23 @@ function Layout() {
     document.addEventListener("mouseup", onMouseUp);
   };
 
+
+ 
   return (
     <>
       <NavBar
         fetchData={fetchData}
         onFetchCode={editorCode}
         onFetchInput={editorInput}
+        downloadPress={downloadPress}
+        setDownloadPress={setDownloadPress}
       />
 
-      <div  style={{ display: "flex", width: "100%" }}>
+      <div style={{ display: "flex", width: "100%" }}>
         <Grid
           container
           spacing={0}
-          style={{ flexWrap: "nowrap", width: "100%", margin: 5 }}
+          style={{ flexWrap: "nowrap", width: "100%", margin: "8px 8px" }}
         >
           <Grid item style={{ width: `${colWidth}%` }}>
             <div className="codeEditor">
@@ -85,6 +109,8 @@ function Layout() {
                 onFetchLanguage={editorLanguage}
                 onInsertTemplate={editorInsertTemplate}
                 onFetchCode={fetchCode}
+                downloadPress={downloadPress}
+                setDownloadPress={setDownloadPress}
               />
             </div>
           </Grid>
@@ -104,25 +130,40 @@ function Layout() {
                 height: "100%",
               }}
             >
-              <div className="inputEditor" style={{ height: `${rowHeight}%` }}>
+              <div
+                className="inputEditor"
+                style={{ height: `${bothMin ? 4 : rowHeight}%` }}
+              >
                 <InputEditor
                   onFetchTheme={editorTheme}
                   onFetchInput={fetchInput}
+                  resizer={resizer}
+                  setResizer={setResizer}
                 />
               </div>
 
               <div
-                className="horizontalLine"
-                onMouseDown={(e) => handleResize("row", e)}
+                className={`horizontalLine${
+                  resizer.input !== 1 || resizer.output !== 1
+                    ? " disabledResizer"
+                    : ""
+                }`}
+                onMouseDown={
+                  resizer.input === 1 && resizer.output === 1
+                    ? (e) => handleResize("row", e)
+                    : undefined
+                }
               ></div>
 
               <div
                 className="outputEditor"
-                style={{ height: `${100 - rowHeight}%` }}
+                style={{ height: `${bothMin ? 4 : 100 - rowHeight}%` }}
               >
                 <OutputEditor
                   onFetchTheme={editorTheme}
                   onFetchOutput={editorOutput}
+                  resizer={resizer}
+                  setResizer={setResizer}
                 />
               </div>
             </div>

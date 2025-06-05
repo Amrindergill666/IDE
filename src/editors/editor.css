@@ -5,12 +5,39 @@ p{
     font-size: large;
 }
 
+@media print {
+    @page {
+        size: A4;
+      }
+    body * {
+      visibility: hidden !important;
+    }
+    #printable-editor,#printable-editor * {
+      visibility: visible !important;
+    }
+    #printable-editor {
+      position: absolute !important;
+      left: 0;
+      top: 0;
+      width: 97vw !important;
+      height: 100vh !important;
+      background: #d3d3d33d;
+      box-shadow: #222;
+      border: 1px solid #d3d3d3;
+      z-index: 9999;
+    }
+    .rightSide{
+        visibility: hidden !important;
+        display: none !important;
+    }
+  }
+
 .editorBox {
   height: 100%;
   width: 100%;
   border-radius: 20px;
-  overflow: hidden;
   border-width: 2px;
+  overflow: hidden;
   border-color: #d3d3d33d;
   border-style: solid;
   max-height: -webkit-fill-available;
@@ -18,7 +45,7 @@ p{
 
 .editorHeader{
     margin:0;
-    padding:3px;
+    padding:2px 12px;
     padding-left:15px;
     display: flex;
     flex-direction: row;
@@ -27,7 +54,63 @@ p{
     border-width: 0 0 1px 0;
     border-color: #d3d3d33d;
     border-style: solid;
+    justify-content: space-between;
 }
+
+.leftSide{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.rightSide{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 15px;
+
+}
+
+.rightIcon{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.tooltipWrapper {
+    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  }
+  
+  .tooltipText {
+    visibility: hidden;
+    min-width: 48px;
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px 4px;
+    position: absolute;
+    z-index: 10;
+    top: 120%; 
+    left: -40%;
+    transform: translateX(-50%);
+    opacity: 0;
+    font-size: 11px;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  
+  .tooltipWrapper:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
+  }
 
 .darkText {
     color: #333;

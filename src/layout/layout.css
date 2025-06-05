@@ -1,88 +1,97 @@
-.codeEditor,.io,.inputEditor,.outputEditor{
-    /* border: 1px solid black; */
-    
+.codeEditor,
+.io,
+.inputEditor,
+.outputEditor {
+  /* border: 1px solid black; */
 }
 
-.codeEditor{
-    height: 90vh;
-    justify-content: center;
-    align-items: center;
-    display: flex;  
-    
+.codeEditor {
+  height: 90vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
-.inputEditor,.outputEditor{
-    height: 45vh;
-   justify-content: center;
-    display: flex;  
-    width: 100%;
+.inputEditor,
+.outputEditor {
+  height: 45vh;
+  justify-content: center;
+  display: flex;
+  width: 100%;
 }
-.inputEditor{
-    /* margin: 20px; */
-    
+.inputEditor {
+  /* margin: 20px; */
 }
 
-.horizontalLine{
-    position: relative;
-    height: 2.5px;
-    background-color: transparent;
-    width: 95%;
-    margin: 1.5px 0px;
-    transition: background-color 0.3s ease;
-    border-radius: 3px;
-    cursor: row-resize;
-    z-index: 4;
-
+.horizontalLine {
+  position: relative;
+  height: 2.5px;
+  background-color: transparent;
+  width: 95%;
+  margin: 1.5px 0px;
+  transition: background-color 0.3s ease;
+  border-radius: 3px;
+  cursor: row-resize;
+  z-index: 4;
 }
 .horizontalLine::after {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 30px;
-    height: 3px;
-    background: #d3d3d3cf;
-    border-radius: 3px;
-    opacity: 0.5;
-    z-index: 1;
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 3px;
+  background: #d3d3d3cf;
+  border-radius: 3px;
+  opacity: 0.5;
+  z-index: 1;
 }
 
-.horizontalLine:hover{
-    background-color: #1a90ff;
+.horizontalLine:hover {
+  background-color: #1a90ff;
 }
 
-.verticalLine{
-    position: relative;
-    width: 2.5px;
-    background-color: transparent;
-    height: 95%;
-    margin: 0px 1.5px;
-    transition: background-color 0.3s ease;
-    border-radius: 3px;
-    align-self: center;
-    cursor: col-resize;
-    z-index: 4;
+.disabledResizer {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.disabledResizer:hover {
+  background-color: transparent !important;
+}
+
+.verticalLine {
+  position: relative;
+  width: 2.5px;
+  background-color: transparent;
+  height: 95%;
+  margin: 0px 1.5px;
+  transition: background-color 0.3s ease;
+  border-radius: 3px;
+  align-self: center;
+  cursor: col-resize;
+  z-index: 4;
 }
 .verticalLine::after {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(90deg);
-    width: 30px;
-    height: 3px;
-    background: #d3d3d3cf;
-    border-radius: 3px;
-    z-index: 1;
-    opacity: 0.5;
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  width: 30px;
+  height: 3px;
+  background: #d3d3d3cf;
+  border-radius: 3px;
+  z-index: 1;
+  opacity: 0.5;
 }
 
-.verticalLine:hover{
-    background-color: #1a90ff;
-} 
+.verticalLine:hover {
+  background-color: #1a90ff;
+}
 
 #root {
-    width: 1000px;
-  }
+  width: 1000px;
+}

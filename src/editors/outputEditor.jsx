@@ -12,11 +12,17 @@ function OutputEditor(props) {
   let theme = props.onFetchTheme;
   let onFetchOutput = props.onFetchOutput;
   let [outputValue, setOutputValue] = useState("");
+  const [size, setSize] = useState("Maximize");
 
   const prevOutputRef = useRef(null);
   useEffect(() => {
     if (onFetchOutput !== prevOutputRef.current) {
-      console.log('OutputEditor: Output changed:', onFetchOutput , "ww" , prevOutputRef.current);
+      console.log(
+        "OutputEditor: Output changed:",
+        onFetchOutput,
+        "ww",
+        prevOutputRef.current
+      );
       handleOutputChange();
     }
     prevOutputRef.current = onFetchOutput;
@@ -25,6 +31,35 @@ function OutputEditor(props) {
   const handleOutputChange = () => {
     setOutputValue(onFetchOutput);
   };
+
+  const onSizeChange = () => {
+      if (size == "Maximize") {
+        setSize("Minimize");
+        props.setResizer({
+          output: 0,
+          input: props.resizer.input,
+        })
+      } else {
+        setSize("Maximize");
+        props.setResizer({
+          output: 1,
+          input: props.resizer.input,
+        })
+      }
+    };
+  
+    useEffect(() => {
+      if (props.resizer) {
+        if (props.resizer.output == 1) {
+          setSize("Maximize");
+        } else {
+          setSize("Minimize");
+        }
+      } else {
+        setSize("Maximize");
+      }
+    }, [props.resizer]);
+  
   return (
     <div className="editorBox">
       <div
@@ -32,13 +67,31 @@ function OutputEditor(props) {
           theme == "chaos" ? "darkColor" : "lightColor"
         }`}
       >
-        <img
-          src="../../assets/images/Input icon.png"
-          style={{ width: 30, height: 30 }}
-        />
-        <p className={theme == "chaos" ? "lightText" : "darkText"}>
-          Output Editor
-        </p>
+        <div className="leftSide">
+          <img
+            src="../../assets/images/Input icon.png"
+            style={{ width: 30, height: 30 }}
+          />
+          <p className={theme == "chaos" ? "lightText" : "darkText"}>
+            Output Editor
+          </p>
+        </div>
+        <div className="rightSide">
+          <div className="tooltipWrapper">
+            <img
+              src="../../assets/images/DownArrow.png"
+              className="rightIcon"
+              onClick={onSizeChange}
+              style={{
+                transform: size == "Minimize" ? "rotate(180deg)" : "none",
+              }}
+              alt="Sizer"
+            />
+            <span className="tooltipText">
+              {size == "Minimize" ? "Maximize" : "Minimize"}
+            </span>
+          </div>
+        </div>
       </div>
 
       <AceEditor

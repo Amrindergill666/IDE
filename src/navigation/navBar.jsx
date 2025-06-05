@@ -19,7 +19,11 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { ArrowDropDownCircleRounded } from "@mui/icons-material";
+import {
+  ArrowDropDownCircleRounded,
+  KeyboardArrowDown,
+  KeyboardArrowUp,
+} from "@mui/icons-material";
 
 export default function NavBar(props) {
   const darkTheme = createTheme({
@@ -34,17 +38,20 @@ export default function NavBar(props) {
   });
 
   const languageOptions = [
-    { value: "c", label: "C", image: "/images/c.png" },
-    { value: "cpp", label: "C++", image: "/images/cpp.png" },
-    { value: "java", label: "Java", image: "/images/java.png" },
-    { value: "py", label: "Python", image: "/images/python.png" },
+    { value: "c", label: "C", image: "/assets/images/cIco.png" },
+    { value: "cpp", label: "C++", image: "/assets/images/cppIco.png" },
+    { value: "java", label: "Java", image: "/assets/images/javaIco.png" },
+    { value: "py", label: "Python", image: "/assets/images/pythonIco.png" },
   ];
 
   const [language, setLanguage] = React.useState("c");
   const [output, setOutput] = React.useState("");
   const [theme, setTheme] = React.useState("chaos");
   const [insertTemplate, setInsertTemplate] = React.useState(0);
-  const [showFirstGif, setShowFirstGif] = React.useState(theme == "chaos" ?  true : false);
+  const [downloadCount, setDownloadCount] = React.useState(0);
+  const [showFirstGif, setShowFirstGif] = React.useState(
+    theme == "chaos" ? true : false
+  );
   let editorCode = props.onFetchCode;
   let editorInput = props.onFetchInput;
 
@@ -58,15 +65,13 @@ export default function NavBar(props) {
   };
 
   const handleSelect = (option) => {
+    setLanguage(option.value);
     setSelected(option);
     setAnchorEl(null);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-  const onLanguageChange = (event) => {
-    setLanguage(event.target.value);
   };
 
   const onThemeChange = (value) => {
@@ -86,7 +91,8 @@ export default function NavBar(props) {
 
   const onDownload = () => {
     const file = new Blob([editorCode], { type: "text/plain;charset=utf-8" });
-    saveAs(file, `downloadedCode.${language}`);
+    saveAs(file, `downloadedCode${downloadCount}.${language}`);
+    setDownloadCount((prevCount) => prevCount + 1);
   };
 
   const handleGifToggle = () => {
@@ -105,14 +111,19 @@ export default function NavBar(props) {
       const data = response.data.output;
       console.log(data);
       setOutput(data);
-      
     } catch (error) {
       console.error("Error sending data:", error);
     }
   };
- 
 
-  props.fetchData(theme, language, insertTemplate,output);
+  React.useEffect(() => {
+    if(props.downloadPress) {
+      onDownload();
+      props.setDownloadPress(false);
+    }
+  }, [props.downloadPress]);
+
+  props.fetchData(theme, language, insertTemplate, output);
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -123,7 +134,7 @@ export default function NavBar(props) {
               <Button sx={{ marginRight: "10px" }} variant="outlined">
                 New file
               </Button>
-              <Button
+              {/* <Button
                 sx={{ marginRight: "10px" }}
                 onClick={onInsertTemplate}
                 variant="outlined"
@@ -143,7 +154,7 @@ export default function NavBar(props) {
                 variant="outlined"
               >
                 Download
-              </Button>
+              </Button> */}
               <Button sx={{ marginRight: "10px" }} variant="outlined">
                 About
               </Button>
@@ -162,7 +173,6 @@ export default function NavBar(props) {
                 <MenuItem value={"chaos"}>Dark</MenuItem>
               </Select>
             </FormControl> */}
-         
 
             {/* GIF Toggle */}
             <div
@@ -180,9 +190,9 @@ export default function NavBar(props) {
               title="Toggle Theme GIF"
             >
               <img
-                src={'../../assets/gif/moon.gif'}
+                src={"../../assets/gif/moon.gif"}
                 alt="Moon"
-                onClick={()=>onThemeChange("chrome")}
+                onClick={() => onThemeChange("chrome")}
                 style={{
                   position: "absolute",
                   left: 0,
@@ -191,14 +201,14 @@ export default function NavBar(props) {
                   height: "100%",
                   transition: "top 0.3s",
                   zIndex: showFirstGif ? 2 : 1,
-                  objectFit:'cover',
-                  transform:'scale(1.5)'
+                  objectFit: "cover",
+                  transform: "scale(1.5)",
                 }}
               />
               <img
-                src={'../../assets/gif/sun.gif'}
+                src={"../../assets/gif/sun.gif"}
                 alt="Sun"
-                onClick={()=>onThemeChange("chaos")}
+                onClick={() => onThemeChange("chaos")}
                 style={{
                   position: "absolute",
                   left: 0,
@@ -207,8 +217,8 @@ export default function NavBar(props) {
                   height: "100%",
                   transition: "top 0.3s",
                   zIndex: showFirstGif ? 1 : 2,
-                  objectFit:'cover',
-                  transform:'scale(1.5)'
+                  objectFit: "cover",
+                  transform: "scale(1.5)",
                 }}
               />
             </div>
@@ -229,45 +239,54 @@ export default function NavBar(props) {
               </Select>
             </FormControl> */}
             <>
-      <Button
-        variant="outlined"
-        onClick={handleClick}
-        endIcon={<ArrowDropDownCircleRounded />}
-        sx={{
-          textTransform: "none",
-          display: "flex",
-          gap: 1,
-          alignItems: "center",
-          padding: "6px 12px",
-        }}
-      >
-        <Avatar
-          src={selected.image}
-          alt={selected.label}
-          sx={{ width: 24, height: 24 }}
-        />
-        {selected.label}
-      </Button>
+              <div
+                onClick={handleClick}
+                style={{
+                  borderRadius: "6px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "right",
+                  gap: "8px",
+                  padding: "6px 12px",
+                  cursor: "pointer",
+                  background: "rgba(255,255,255,0.04)",
+                  marginRight: "12px",
+                  // minWidth: "90px",
+                  userSelect: "none",
+                }}
+              >
+                <Avatar
+                  src={selected.image}
+                  alt={selected.label}
+                  sx={{ width: 24, height: 24 }}
+                />
+                <span style={{ fontWeight: 500 }}>{selected.label}</span>
+                {open ? (
+                  <KeyboardArrowUp sx={{ fontSize: 20 }} />
+                ) : (
+                  <KeyboardArrowDown sx={{ fontSize: 20 }} />
+                )}
+              </div>
 
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose} style={{borderRadius:20,borderWidth:1,borderStyle:"solid"}} >
-        {languageOptions.map((option) => (
-          <MenuItem
-            key={option.value}
-            selected={option.value === selected.value}
-            onClick={() => handleSelect(option)}
-          >
-            <ListItemIcon>
-              <Avatar
-                src={option.image}
-                alt={option.label}
-                sx={{ width: 24, height: 24 }}
-              />
-            </ListItemIcon>
-            <ListItemText primary={option.label} />
-          </MenuItem>
-        ))}
-      </Menu>
-    </>
+              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+                {languageOptions.map((option) => (
+                  <MenuItem
+                    key={option.value}
+                    selected={option.value === selected.value}
+                    onClick={() => handleSelect(option)}
+                  >
+                    <ListItemIcon>
+                      <Avatar
+                        src={option.image}
+                        alt={option.label}
+                        sx={{ width: 24, height: 24 }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={option.label} />
+                  </MenuItem>
+                ))}
+              </Menu>
+            </>
             <Button variant="contained" color="success" onClick={onRun}>
               Run
             </Button>
