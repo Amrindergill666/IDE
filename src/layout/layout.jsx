@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Grid } from "@mui/material";
 import CodeEditor from "../editors/codeEditor";
 import InputEditor from "../editors/inputEditor";
@@ -20,6 +20,16 @@ function Layout() {
     input: 1,
     output: 1,
   });
+  const divRef = useRef(null);
+
+  
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const fetchData = (theme, language, insertTemplate, output) => {
     setEditorLanguage(language);
@@ -85,6 +95,7 @@ function Layout() {
   };
 
 
+  
  
   return (
     <>
@@ -100,9 +111,9 @@ function Layout() {
         <Grid
           container
           spacing={0}
-          style={{ flexWrap: "nowrap", width: "100%", margin: "8px 8px" }}
+          style={{ flexWrap: screenWidth < 768 ? "wrap" : "nowrap", width: "100%", margin: "8px 8px" }}
         >
-          <Grid item style={{ width: `${colWidth}%` }}>
+          <Grid item style={{ width: `${screenWidth < 768 ? 100 :  colWidth}%` }}>
             <div className="codeEditor">
               <CodeEditor
                 onFetchTheme={editorTheme}
@@ -115,24 +126,27 @@ function Layout() {
             </div>
           </Grid>
 
-          <div
+          { screenWidth >= 768 && 
+            <div
             className="verticalLine"
             onMouseDown={(e) => handleResize("col", e)}
-          ></div>
+          ></div>}
 
-          <Grid item style={{ width: `${100 - colWidth}%` }}>
+          <Grid item style={{ width: `${ screenWidth < 768  ? 100 : 100 - colWidth}%` }}>
             <div
+            ref={divRef}
               className="io"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 height: "100%",
+                overflow: "hidden",
               }}
             >
               <div
                 className="inputEditor"
-                style={{ height: `${bothMin ? 4 : rowHeight}%` }}
+                style={{ height:   screenWidth < 768 ? "50vh" : `${bothMin ? 4 : rowHeight}%` }}
               >
                 <InputEditor
                   onFetchTheme={editorTheme}
@@ -142,6 +156,7 @@ function Layout() {
                 />
               </div>
 
+             {screenWidth >= 768 && 
               <div
                 className={`horizontalLine${
                   resizer.input !== 1 || resizer.output !== 1
@@ -153,11 +168,11 @@ function Layout() {
                     ? (e) => handleResize("row", e)
                     : undefined
                 }
-              ></div>
+              ></div>}
 
               <div
                 className="outputEditor"
-                style={{ height: `${bothMin ? 4 : 100 - rowHeight}%` }}
+                style={{ height: screenWidth < 768 ? "50vh" : `${ bothMin ? 4 : 100 - rowHeight}%` }}
               >
                 <OutputEditor
                   onFetchTheme={editorTheme}

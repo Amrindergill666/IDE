@@ -124,12 +124,12 @@ function CodeEditor(props) {
   props.onFetchCode(value);
 
   const onPressDownload = () => {
-    props.setDownloadPress(true)
-  }
+    props.setDownloadPress(true);
+  };
 
   const onPressWrap = () => {
     setTextWrap(!textWrap);
-  }
+  };
 
   return (
     <div className="editorBox" id="printable-editor">
@@ -150,7 +150,11 @@ function CodeEditor(props) {
         <div className="rightSide">
           <div className="tooltipWrapper">
             <img
-              src={ textWrap ? "../../assets/images/TextWrap.png" : "../../assets/images/TextNoWrap.png" }
+              src={
+                textWrap
+                  ? "../../assets/images/TextWrap.png"
+                  : "../../assets/images/TextNoWrap.png"
+              }
               className="rightIcon"
               onClick={onPressWrap}
               alt="Wrap code"
@@ -200,7 +204,7 @@ function CodeEditor(props) {
 
       <AceEditor
         mode={language}
-        height="100%"
+        height="calc(100% - 35px)"
         width="100%"
         value={value}
         theme={theme}

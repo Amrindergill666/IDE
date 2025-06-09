@@ -18,6 +18,13 @@ function InputEditor(props) {
 
   const [size, setSize] = useState("Maximize");
   const [copyCode, setCopyCode] = useState("");
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const copyPress = () => {
     navigator.clipboard.writeText(inputValue).then(() => {
       setCopyCode(inputValue);
@@ -28,15 +35,14 @@ function InputEditor(props) {
       setSize("Minimize");
       props.setResizer({
         input: 0,
-        output: props.resizer.output
-      })
+        output: props.resizer.output,
+      });
     } else {
       setSize("Maximize");
       props.setResizer({
         input: 1,
-        output: props.resizer.output
-
-      })
+        output: props.resizer.output,
+      });
     }
   };
 
@@ -54,7 +60,7 @@ function InputEditor(props) {
 
   props.onFetchInput(inputValue);
   return (
-    <div className="editorBox">
+    <div className="editorBox" style={{margin: screenWidth >= 768 ?  "0px" :  "5px 0px 5px 0px"}}>
       <div
         className={`editorHeader ${
           theme == "chaos" ? "darkColor" : "lightColor"
@@ -81,27 +87,30 @@ function InputEditor(props) {
               {copyCode == inputValue ? "Text copied" : "Copy"}
             </span>
           </div>
-          <div className="tooltipWrapper">
-            <img
-              src="../../assets/images/DownArrow.png"
-              className="rightIcon"
-              onClick={onSizeChange}
-              style={{
-                transform: size == "Minimize" ? "rotate(180deg)" : "none",
-              }}
-              alt="Sizer"
-            />
-            <span className="tooltipText">
-              {size == "Minimize" ? "Maximize" : "Minimize"}
-            </span>
-          </div>
+          {screenWidth >= 768 && (
+            <div className="tooltipWrapper">
+              <img
+                src="../../assets/images/DownArrow.png"
+                className="rightIcon"
+                onClick={onSizeChange}
+                style={{
+                  transform: size == "Minimize" ? "rotate(180deg)" : "none",
+                }}
+                alt="Sizer"
+              />
+              <span className="tooltipText">
+                {size == "Minimize" ? "Maximize" : "Minimize"}
+              </span>
+            </div>
+          )}
         </div>
       </div>
       <AceEditor
         mode="text"
-        height="100%"
+        height="calc(100% - 35px)"
         width="100%"
         value={inputValue}
+        // style={{ paddingTop:"40px"}}
         theme={theme}
         onChange={onChange}
         name="inputEditor"

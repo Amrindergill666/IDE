@@ -41,6 +41,11 @@ p{
   border-color: #d3d3d33d;
   border-style: solid;
   max-height: -webkit-fill-available;
+  position: relative;
+  justify-content:flex-end;
+    display: flex;
+    flex-direction: column;
+  
 }
 
 .editorHeader{
@@ -55,6 +60,11 @@ p{
     border-color: #d3d3d33d;
     border-style: solid;
     justify-content: space-between;
+    position: absolute;
+    width: -webkit-fill-available;
+    top: 0;
+    overflow: hidden;
+    z-index: 10;
 }
 
 .leftSide{
@@ -90,21 +100,22 @@ p{
   .tooltipText {
     visibility: hidden;
     min-width: 48px;
-    background-color: #222;
+    background-color: rgba(34, 34, 34,0.8);
     color: #fff;
     text-align: center;
     border-radius: 4px;
     padding: 4px 4px;
     position: absolute;
-    z-index: 10;
-    top: 120%; 
-    left: -40%;
+    z-index: 1000000;
+    top: -10%; 
+    right: -20%;
     transform: translateX(-50%);
     opacity: 0;
     font-size: 11px;
     transition: opacity 0.2s;
     pointer-events: none;
     white-space: nowrap;
+    
   }
   
   .tooltipWrapper:hover .tooltipText {

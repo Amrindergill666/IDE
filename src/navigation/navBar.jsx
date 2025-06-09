@@ -117,7 +117,7 @@ export default function NavBar(props) {
   };
 
   React.useEffect(() => {
-    if(props.downloadPress) {
+    if (props.downloadPress) {
       onDownload();
       props.setDownloadPress(false);
     }
@@ -131,50 +131,13 @@ export default function NavBar(props) {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Button sx={{ marginRight: "10px" }} variant="outlined">
-                New file
-              </Button>
-              {/* <Button
-                sx={{ marginRight: "10px" }}
-                onClick={onInsertTemplate}
-                variant="outlined"
-              >
-                Insert New Template
-              </Button>
-              <Button
-                sx={{ marginRight: "10px" }}
-                onClick={onCopyCode}
-                variant="outlined"
-              >
-                Copy Code
-              </Button>
-              <Button
-                sx={{ marginRight: "10px" }}
-                onClick={onDownload}
-                variant="outlined"
-              >
-                Download
-              </Button> */}
-              <Button sx={{ marginRight: "10px" }} variant="outlined">
-                About
-              </Button>
+              <img
+                src={"../../assets/images/logo.png"}
+                alt="Logo"
+                style={{ width: "30px", height: "30px", marginRight: "8px" }}
+              />
             </Typography>
 
-            {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-label">Theme</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={theme}
-                label="Theme"
-                onChange={onThemeChange}
-              >
-                <MenuItem value={"chrome"}>Light</MenuItem>
-                <MenuItem value={"chaos"}>Dark</MenuItem>
-              </Select>
-            </FormControl> */}
-
-            {/* GIF Toggle */}
             <div
               style={{
                 position: "relative",
@@ -223,21 +186,6 @@ export default function NavBar(props) {
               />
             </div>
 
-            {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-label">Language</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select-label"
-                value={language}
-                label="Language"
-                onChange={onLanguageChange}
-              >
-                <MenuItem value={"c"}>C</MenuItem>
-                <MenuItem value={"cpp"}>C++</MenuItem>
-                <MenuItem value={"java"}>Java</MenuItem>
-                <MenuItem value={"py"}>Python</MenuItem>
-              </Select>
-            </FormControl> */}
             <>
               <div
                 onClick={handleClick}
